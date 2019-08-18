@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "HXImagePickerController.h"
 
 @interface ViewController ()
 
@@ -16,7 +17,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+}
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    HXImagePickerController *pickerVC = [[HXImagePickerController alloc] initWithHasAlbumList:YES];
+//    pickerVC.maxSelectCount = 5;
+    [self presentViewController:pickerVC animated:YES completion:nil];
 }
 
 
