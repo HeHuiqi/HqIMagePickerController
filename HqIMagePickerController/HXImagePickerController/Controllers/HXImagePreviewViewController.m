@@ -105,13 +105,22 @@ static inline BOOL isIPhoneXSeries() {
 - (void)selectBtnClicked{
     HXImagePickerController *pickerController  = self.pickerController;
     HXImageModel * imageModel  = self.imageModels[self.currentIndex];
+    NSMutableArray *selectedModels = self.pickerController.selectedImageModels;
+
     if (imageModel.isSelected) {
         [self.imageNavigationView.selectBtn setSelectedIndex:-1 animation:NO];
         [self.pickerController.selectedImageModels enumerateObjectsUsingBlock:^(HXImageModel * _Nonnull selectedModel, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([selectedModel equalToImageModel:imageModel]) {
                 imageModel.selectedIndex = -1;
-                [self.pickerController.selectedImageModels removeObject:selectedModel];
-                pickerController.selectedImageModels = pickerController.selectedImageModels;
+                NSInteger delModeIndex = [selectedModels indexOfObject:imageModel];
+                [selectedModels removeObject:imageModel];
+                //删除之后的model要重排index
+                for (NSInteger i = delModeIndex; i<selectedModels.count; i++) {
+                    HXImageModel *afterModel = selectedModels[i];
+                    afterModel.selectedIndex = i;
+                }
+                [selectedModels removeObject:selectedModel];
+                pickerController.selectedImageModels = selectedModels;
             }
         }];
     }else{
@@ -119,6 +128,7 @@ static inline BOOL isIPhoneXSeries() {
             [pickerController showCanNotSelectAlert];
             return;
         }
+        
         imageModel.selectedIndex = pickerController.selectedImageModels.count;
         [self.imageNavigationView.selectBtn setSelectedIndex:pickerController.selectedImageModels.count animation:YES];
         [pickerController.selectedImageModels addObject:imageModel];

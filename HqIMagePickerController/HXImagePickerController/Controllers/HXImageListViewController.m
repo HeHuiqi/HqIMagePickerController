@@ -187,7 +187,7 @@
         if ([selectedModels containsObject:imageModel]) {
             NSInteger delModeIndex = [selectedModels indexOfObject:imageModel];
             [selectedModels removeObject:imageModel];
-            //删除之后的model要重拍index
+            //删除之后的model要重排index
             for (NSInteger i = delModeIndex; i<selectedModels.count; i++) {
                 HXImageModel *afterModel = selectedModels[i];
                 afterModel.selectedIndex = i;
