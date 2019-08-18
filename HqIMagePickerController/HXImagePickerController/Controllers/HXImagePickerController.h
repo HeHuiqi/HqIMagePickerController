@@ -13,8 +13,6 @@
 #import "HXAlbumListViewController.h"
 #import "HXImageListViewController.h"
 
-#define HXImagePickerIsOriginDidChanged @"HXImagePickerIsOriginDidChanged"
-#define HXImagePickerSelectedImageModelsDidChanged @"HXImagePickerSelectedImageModelsDidChanged"
 
 NS_ASSUME_NONNULL_BEGIN
 @class HXImagePickerController;

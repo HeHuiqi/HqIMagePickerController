@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33535DFC2308EDE200871E95 /* HXImageToolView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33535DFB2308EDE200871E95 /* HXImageToolView.m */; };
+		33535DFF2308FD7E00871E95 /* HqShowSelecteImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33535DFE2308FD7E00871E95 /* HqShowSelecteImageCell.m */; };
 		33588D5822FE6F2B00443E01 /* HXPhotoImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 33588D5722FE6F2B00443E01 /* HXPhotoImageManager.m */; };
 		33588D5B22FE6F3B00443E01 /* HXImagePickerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 33588D5A22FE6F3B00443E01 /* HXImagePickerConfig.m */; };
 		33588D5E22FE717000443E01 /* HXImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33588D5D22FE717000443E01 /* HXImagePickerController.m */; };
@@ -31,6 +33,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33535DFA2308EDE200871E95 /* HXImageToolView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXImageToolView.h; sourceTree = "<group>"; };
+		33535DFB2308EDE200871E95 /* HXImageToolView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXImageToolView.m; sourceTree = "<group>"; };
+		33535DFD2308FD7E00871E95 /* HqShowSelecteImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HqShowSelecteImageCell.h; sourceTree = "<group>"; };
+		33535DFE2308FD7E00871E95 /* HqShowSelecteImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HqShowSelecteImageCell.m; sourceTree = "<group>"; };
 		33588D5622FE6F2B00443E01 /* HXPhotoImageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXPhotoImageManager.h; sourceTree = "<group>"; };
 		33588D5722FE6F2B00443E01 /* HXPhotoImageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HXPhotoImageManager.m; sourceTree = "<group>"; };
 		33588D5922FE6F3B00443E01 /* HXImagePickerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXImagePickerConfig.h; sourceTree = "<group>"; };
@@ -107,6 +113,8 @@
 				33AAE45C22FE5D180022B5EF /* AppDelegate.m */,
 				33AAE45E22FE5D180022B5EF /* ViewController.h */,
 				33AAE45F22FE5D180022B5EF /* ViewController.m */,
+				33535DFD2308FD7E00871E95 /* HqShowSelecteImageCell.h */,
+				33535DFE2308FD7E00871E95 /* HqShowSelecteImageCell.m */,
 				33AAE46122FE5D180022B5EF /* Main.storyboard */,
 				33AAE46422FE5D1B0022B5EF /* Assets.xcassets */,
 				33AAE46622FE5D1B0022B5EF /* LaunchScreen.storyboard */,
@@ -158,6 +166,8 @@
 				33588D7522FFF8AF00443E01 /* HXImageNavigationView.m */,
 				33588D77230002B200443E01 /* HXPreviewCell.h */,
 				33588D78230002B200443E01 /* HXPreviewCell.m */,
+				33535DFA2308EDE200871E95 /* HXImageToolView.h */,
+				33535DFB2308EDE200871E95 /* HXImageToolView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -259,6 +269,7 @@
 				33588D6D22FEB87F00443E01 /* HXImageCell.m in Sources */,
 				33588D6A22FE93CA00443E01 /* HXImageClipViewController.m in Sources */,
 				33588D5B22FE6F3B00443E01 /* HXImagePickerConfig.m in Sources */,
+				33535DFC2308EDE200871E95 /* HXImageToolView.m in Sources */,
 				33588D5E22FE717000443E01 /* HXImagePickerController.m in Sources */,
 				33588D5822FE6F2B00443E01 /* HXPhotoImageManager.m in Sources */,
 				33588D7022FECB8C00443E01 /* HXAlbumCell.m in Sources */,
@@ -271,6 +282,7 @@
 				33AAE46B22FE5D1B0022B5EF /* main.m in Sources */,
 				33AAE45D22FE5D180022B5EF /* AppDelegate.m in Sources */,
 				33AAE47A22FE5DDC0022B5EF /* HXAlbumModel.m in Sources */,
+				33535DFF2308FD7E00871E95 /* HqShowSelecteImageCell.m in Sources */,
 				33AAE47D22FE5DEC0022B5EF /* HXImageModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

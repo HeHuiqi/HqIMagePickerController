@@ -70,14 +70,19 @@
 // 取消
 - (void)cancelSelect{
     if (self.hxip_delegate) {
-        [self.hxip_delegate imagePickerControllerDidCancelSelect:self];
+        if ([self.hxip_delegate respondsToSelector:@selector(imagePickerControllerDidCancelSelect:)]) {
+            [self.hxip_delegate imagePickerControllerDidCancelSelect:self];
+        }
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 // 选择完成
 - (void)confirmSelectImageModels{
     if (self.hxip_delegate) {
-    [self.hxip_delegate imagePickerController:self didSelectedImageModels:self.selectedImageModels isOrigin:self.isOrigin];
+        if ([self.hxip_delegate respondsToSelector:@selector(imagePickerController:didSelectedImageModels:isOrigin:)]) {
+            [self.hxip_delegate imagePickerController:self didSelectedImageModels:self.selectedImageModels isOrigin:self.isOrigin];
+
+        }
 
        __block BOOL requestFail = NO;
         dispatch_group_t group = dispatch_group_create();
@@ -122,7 +127,9 @@
                 NSLog(@"图片加载失败");
                 return ;
             }
-            [self.hxip_delegate imagePickerController:self didSelectedImages:images];
+            if ([self.hxip_delegate respondsToSelector:@selector(imagePickerController:didSelectedImages:)]) {
+                [self.hxip_delegate imagePickerController:self didSelectedImages:images];
+            }
             [self dismissViewControllerAnimated:YES completion:nil];
             
         });

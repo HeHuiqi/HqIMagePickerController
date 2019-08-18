@@ -55,12 +55,29 @@ static inline BOOL isIPhoneXSeries() {
     self.navigationController.navigationBarHidden = NO;
 
 }
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
     [self.view addSubview:self.previewCollectionView];
     [self.view addSubview:self.imageNavigationView];
+    
+    
+    /// 设置选中按钮状态
+    HXImageModel *previewImageModel = self.imageModels[self.currentIndex];
+    NSInteger selectedIndex = -1;
+    if ([self.pickerController.selectedImageModels containsObject:previewImageModel]) {
+        selectedIndex = [self.pickerController.selectedImageModels indexOfObject:previewImageModel];
+    }
+    if (selectedIndex>-1 && previewImageModel) {
+        [self.imageNavigationView.selectBtn setSelectedIndex:selectedIndex animation:NO];
+    }
+
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedImageModelsDidChangeed:) name:HXImagePickerSelectedImageModelsDidChanged object:nil];
 }
 - (HXImagePickerController *)pickerController{
     return (HXImagePickerController *)self.navigationController;
@@ -72,7 +89,6 @@ static inline BOOL isIPhoneXSeries() {
 //        if (isIPhoneXSeries()) {
 //            navH = 88;
 //        }
-       
         _imageNavigationView = [[HXImageNavigationView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, navH) contentHeight:50];
         _imageNavigationView.mainTintColor = self.pickerController.mainTintColor;
         [_imageNavigationView.backBtn addTarget:self action:@selector(backBtnClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -87,6 +103,30 @@ static inline BOOL isIPhoneXSeries() {
 }
 #pragma mark - 选中操作
 - (void)selectBtnClicked{
+    HXImagePickerController *pickerController  = self.pickerController;
+    HXImageModel * imageModel  = self.imageModels[self.currentIndex];
+    if (imageModel.isSelected) {
+        [self.imageNavigationView.selectBtn setSelectedIndex:-1 animation:NO];
+        [self.pickerController.selectedImageModels enumerateObjectsUsingBlock:^(HXImageModel * _Nonnull selectedModel, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([selectedModel equalToImageModel:imageModel]) {
+                imageModel.selectedIndex = -1;
+                [self.pickerController.selectedImageModels removeObject:selectedModel];
+                pickerController.selectedImageModels = pickerController.selectedImageModels;
+            }
+        }];
+    }else{
+        if (pickerController.selectedImageModels.count >= pickerController.maxSelectCount) {
+            [pickerController showCanNotSelectAlert];
+            return;
+        }
+        imageModel.selectedIndex = pickerController.selectedImageModels.count;
+        [self.imageNavigationView.selectBtn setSelectedIndex:pickerController.selectedImageModels.count animation:YES];
+        [pickerController.selectedImageModels addObject:imageModel];
+        pickerController.selectedImageModels = pickerController.selectedImageModels;
+    }
+}
+#pragma mark - selectedImageModelsDidChangeed
+- (void)selectedImageModelsDidChangeed:(NSNotification *)nofity{
     
 }
 - (UICollectionView *)previewCollectionView{
@@ -140,6 +180,36 @@ static inline BOOL isIPhoneXSeries() {
         [self.pickerController showCanNotSelectAlert];
     }else{
         
+    }
+}
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView == self.previewCollectionView) {
+        self.currentIndex = round(scrollView.contentOffset.x / scrollView.bounds.size.width);
+        if (self.currentIndex >= self.imageModels.count) {
+            self.currentIndex = self.imageModels.count - 1;
+        } else if (self.currentIndex < 0) {
+            self.currentIndex = 0;
+        }
+        NSLog(@"self.currentIndex==%@",@(self.currentIndex));
+        HXImageModel *previewImageModel = self.imageModels[self.currentIndex];
+        NSInteger selectedIndex = -1;
+        if ([self.pickerController.selectedImageModels containsObject:previewImageModel]) {
+            selectedIndex = [self.pickerController.selectedImageModels indexOfObject:previewImageModel];
+        }
+        NSLog(@"selectedIndex===%@",@(selectedIndex));
+        if (selectedIndex>-1 && previewImageModel) {
+            [self.imageNavigationView.selectBtn setSelectedIndex:selectedIndex animation:NO];
+            //let selectedIndexPath = IndexPath(item: selectedIndex, section: 0)
+            //thumbCollectionViewCellDidSelected(at: selectedIndexPath)
+        } else {
+            /*
+            if thumbSelectedIndexPath != nil{
+                collectionView(thumbCollectionView, didDeselectItemAt: thumbSelectedIndexPath!)
+            }
+            */
+            [self.imageNavigationView.selectBtn setSelectedIndex:-1 animation:NO];
+        }
     }
 }
 /*

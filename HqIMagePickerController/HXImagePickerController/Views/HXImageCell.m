@@ -67,7 +67,6 @@
     return _selectBtn;
 }
 - (void)selectBtnClicked{
-    NSLog(@"selectBtnClicked==");
     if (self.selectBtnClickedCallback) {
         self.selectBtnClickedCallback(self);
     }

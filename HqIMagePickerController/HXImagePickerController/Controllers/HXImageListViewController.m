@@ -11,6 +11,7 @@
 
 #import "HXPhotoImageManager.h"
 #import "HXImagePreviewViewController.h"
+#import "HXImageToolView.h"
 
 
 @interface HXImageListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
@@ -24,6 +25,9 @@
 @property (nonatomic,strong) HXImagePickerController *pickerController;
 
 @property (nonatomic,strong) NSMutableArray<HXImageModel *> *imageModels;
+
+@property (nonatomic,strong) HXImageToolView *imageToolView;
+
 
 
 
@@ -62,14 +66,30 @@
         layout.minimumInteritemSpacing = itemSpacing;
         layout.sectionInset = UIEdgeInsetsMake(itemSpacing, itemSpacing, itemSpacing, itemSpacing);
         
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-80) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-50) collectionViewLayout:layout];
         _collectionView.delegate = self;
         _collectionView.dataSource  = self;
-        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         _collectionView.alwaysBounceVertical = YES;
         [_collectionView registerClass:HXImageCell.class forCellWithReuseIdentifier:HXImageModelId];
     }
     return _collectionView;
+}
+- (HXImageToolView *)imageToolView{
+    if (!_imageToolView) {
+        CGFloat toolViewH = 50;
+        CGFloat toolViewY = self.view.bounds.size.height - toolViewH;
+        CGFloat toolViewW = self.view.bounds.size.width;
+        _imageToolView = [[HXImageToolView alloc] initWithFrame:CGRectMake(0, toolViewY, toolViewW, toolViewH)];
+        _imageToolView.mainTintColor = self.pickerController.mainTintColor;
+        _imageToolView.selectedImageCount = 0;
+        [_imageToolView.confirmBtn addTarget:self action:@selector(confirmBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _imageToolView;
+}
+#pragma mark - 完成选择
+- (void)confirmBtnClicked{
+    [self.pickerController confirmSelectImageModels];
 }
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -79,6 +99,7 @@
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     self.title = self.albumModel.albumName;
     [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.imageToolView];
     [self setupCancelItem];
     [self requestImageModels];
     
@@ -96,7 +117,7 @@
 #pragma mark -  选中通知
 - (void)selectedImageModelsDidChangeed:(NSNotification *)notify{
     NSMutableArray<HXImageModel *> *selectedModels = (NSMutableArray *)notify.object;
-    NSLog(@"selectedModels==%@",selectedModels);
+   // NSLog(@"selectedModels==%@",selectedModels);
     /*
     if (selectedModels.count>0) {
         [selectedModels enumerateObjectsUsingBlock:^(HXImageModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
